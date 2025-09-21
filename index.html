@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Powered Smart Bin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+      color: #333;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { margin: 0; }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .bin-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .bin {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 180px;
+    }
+    .bin img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #2e7d32;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1b5e20;
+    }
+    #uploadPreview {
+      margin-top: 20px;
+      max-width: 200px;
+      border: 2px dashed #ccc;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>AI Powered Smart Bin</h1>
+    <p>Sorts waste automatically using AI and sensors</p>
+  </header>
+  <main>
+    <h2>Upload a waste item image</h2>
+    <input type="file" id="fileInput" accept="image/*">
+    <div id="uploadPreview"></div>
+    <button onclick="classifyWaste()">Classify Waste</button>
+    <div class="bin-container">
+      <div class="bin" id="plastic-bin">
+        <img src="https://img.icons8.com/color/96/plastic.png" alt="Plastic Bin">
+        <p>Plastic</p>
+      </div>
+      <div class="bin" id="food-bin">
+        <img src="https://img.icons8.com/color/96/meal.png" alt="Food Bin">
+        <p>Food</p>
+      </div>
+      <div class="bin" id="glass-bin">
+        <img src="https://img.icons8.com/color/96/wine-bottle.png" alt="Glass Bin">
+        <p>Glass</p>
+      </div>
+      <div class="bin" id="metal-bin">
+        <img src="https://img.icons8.com/color/96/aluminum.png" alt="Metal Bin">
+        <p>Metal</p>
+      </div>
+    </div>
+    <h3 id="result"></h3>
+  </main>
+
+  <script>
+    const preview = document.getElementById('uploadPreview');
+    const fileInput = document.getElementById('fileInput');
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          preview.innerHTML = `<img src="${event.target.result}" style="max-width:100%">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function classifyWaste() {
+      // Simulated AI classification
+      const categories = ['Plastic', 'Food', 'Glass', 'Metal'];
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      document.getElementById('result').innerText = `Detected: ${randomCategory} Waste`;
+
+      // Highlight the bin
+      document.querySelectorAll('.bin').forEach(bin => {
+        bin.style.border = 'none';
+      });
+      document.getElementById(randomCategory.toLowerCase() + '-bin').style.border = '3px solid green';
+    }
+  </script>
+</body>
+</html>
